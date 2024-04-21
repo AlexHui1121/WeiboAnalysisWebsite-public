@@ -1,0 +1,155 @@
+.rowbox {
+  display: block;
+  flex-direction: column;
+}
+.colbox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 768) {
+  .row {
+    flex-direction: row;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.containerbox {
+  margin-left: 5px;
+  margin-right: 5px;
+  height: auto;
+}
+
+.container {
+  min-height: 100%;
+}
+
+.warper {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: auto 292.54px;
+  grid-template-rows: 50px auto;
+  background-color: #fff;
+  color: #444;
+}
+
+.filter {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  flex-wrap: wrap;
+  background-color: rgb(201, 196, 196);
+}
+
+.filter > * {
+  height: fit-content;
+  margin-top: 0;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: antiquewhite;
+}
+
+.form-select {
+  resize: vertical; /* 仅允许垂直调整大小 */
+  overflow: auto; /* 启用调整大小功能 */
+  min-height: 100px; /* 最小高度 */
+  max-height: 300px; /* 最大高度 */
+}
+
+.chartgrid,
+.piegrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin: 0;
+}
+
+.piegrid {
+  width: min-content;
+}
+
+.chartgrid {
+  width: 70%;
+}
+
+.chartgrid > *,
+.piegrid > * {
+  height: 300px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.chartgrid > * {
+  width: 50%;
+  min-width: 300px;
+}
+
+.piegrid > * {
+  width: auto;
+  min-width: 100px;
+}
+
+@media only screen and (max-width: 1042px) {
+  .piegrid {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1042px) {
+  .chartgrid {
+    width: 100%;
+  }
+  .chartgrid > * {
+    width: 100%;
+  }
+}
+
+thead {
+  position: sticky;
+  top: 0;
+}
+
+#dataTable {
+  font-family: Arial, sans-serif;
+  border: 1px solid #bab6b6;
+
+  width: 100%;
+}
+
+#dataTable td,
+#dataTable th {
+  border: 1px solid #bab6b6;
+  padding: 5px;
+}
+
+#dataTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#dataTable thead {
+  padding-top: 13px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #d7ba39;
+  color: white;
+  border-color: #d7ba39;
+}
+
+.tablefilter_item {
+  width: 100%;
+}

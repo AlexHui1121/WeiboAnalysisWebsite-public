@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analysis Dashboard</title>
+
+    <!-- bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"></script>
+
+    <!-- googlefond -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Roboto:ital@1&display=swap" rel="stylesheet" />
+
+    <!-- dc -->
+    <!-- <script src="https://d3js.org/d3.v7.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.5.4/crossfilter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/4.2.7/dc.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/4.2.7/style/dc.min.css" /> -->
+
+    <!-- jquery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"></script>
+
+    <!-- chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+
+    <!-- js & css link -->
+    <link rel="stylesheet" href="./dashboard.css" />
+    <script type="module" src="./dashboard.js"></script>
+    <!-- <script type="text/javascript" src="./multiselect-dropdown.js"></script> -->
+  </head>
+  <body>
+    <div class="containerbox justify-content-center text-center pt-3" style="display: none">
+      <h1>Analysis Dashboard</h1>
+      <div class="warper">
+        <div style="grid-row: 1; grid-column: 1 / 2">
+          <select
+            class="form-control"
+            style="margin-block: inherit; justify-content: center; height: 100%"
+            id="topicSelect">
+            <option>Unable to connect to server!!</option>
+          </select>
+        </div>
+        <div class="my-0 py-0" style="grid-row: 1; grid-column: 2 / 3; height: 100%">
+          <div class="colbox m-0 p-0" style="height: 50%">
+            <div id="year-btn-group" class="btn-group" style="height: 100%"></div>
+          </div>
+          <div class="colbox m-0 p-0" style="height: 50%">
+            <div id="month-btn-group" class="btn-group" style="height: 100%"></div>
+          </div>
+        </div>
+
+        <div style="grid-column: 1 / 3; grid-row: 2/3" class="col">
+          <button class="btn btn-primary px-0 py-0 m-0 col" type="submit" id="submitBtn" style="width: 100%">
+            Submit
+          </button>
+        </div>
+      </div>
+
+      <div class="dashboard" style="display: none; height: 100%">
+        <div class="filter">
+          <div style="display: grid">
+            <h4 style="margin: auto">Filter:</h4>
+            <button id="filter_on_off" style="margin: auto" class="btn btn-primary p-0 m-0">OFF</button>
+          </div>
+          <div class="btn-group" id="select_gender" name="select_gender" role="group" aria-label="gender">
+            <button type="button" class="btn btn-secondary">Male</button>
+            <button type="button" class="btn btn-secondary">Female</button>
+          </div>
+          <div style="display: grid; grid-template-rows: 30px auto; column-gap: 5px">
+            <label for="select_word" style="grid-row: 1/2; grid-column: 1/2" class="m-0 p-0">Word:</label>
+            <button id="clear_keyword_filter" class="btn btn-warning p-0 m-0" style="grid-column: 1/2; grid-row: 2/3">
+              Clear
+            </button>
+            <select
+              style="width: auto; height: 80px; grid-column: 2/3; grid-row: 1/3"
+              name="select_word"
+              id="select_word"
+              class="form-select"
+              multiple>
+              <option value="" disabled>Keywords</option>
+            </select>
+          </div>
+          <div id="select_sentiment" style="display: flex; align-items: stretch; justify-content: center">
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value="0"
+              name="sentiment_min"
+              id="sentiment_min"
+              style="width: 55px; height: auto" />
+            <p style="font-size: large; margin: auto">&lt;Sentiment Score(%)&lt;</p>
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value="100"
+              name="sentiment_max"
+              id="sentiment_max"
+              style="width: 55px; height: auto" />
+          </div>
+          <div style="display: grid; grid-template-rows: 30px auto; column-gap: 5px">
+            <label for="select_location" style="grid-row: 1/2; grid-column: 1/2" class="m-0 p-0">Location:</label>
+            <button id="clear_location_filter" class="btn btn-warning p-0 m-0" style="grid-column: 1/2; grid-row: 2/3">
+              Clear
+            </button>
+            <select
+              style="width: auto; height: 80px; grid-column: 2/3; grid-row: 1/3"
+              name="select_location"
+              id="select_location"
+              class="form-select"
+              multiple>
+              <option value="" disabled>location</option>
+            </select>
+          </div>
+          <div style="display: block; width: 100%; height: 0; padding: 0"></div>
+          <button
+            class="btn"
+            id="reset_filter"
+            style="width: -webkit-fill-available; background-color: firebrick; color: white">
+            Reset All
+          </button>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; column-gap: 10px; margin: 0">
+          <div class="chartgrid">
+            <div>
+              <canvas width="100%" height="100%" id="TweetCount"></canvas>
+            </div>
+            <div>
+              <canvas width="100%" height="100%" id="WordCount"></canvas>
+            </div>
+
+            <div>
+              <canvas width="100%" height="100%" id="GeoBar"></canvas>
+            </div>
+            <div style="flex-direction: column; display: flex">
+              <div>Geo heatmap NOT support phone</div>
+              <embed id="GeoMap" type="image/svg+xml" width="100%" height="100%" />
+            </div>
+          </div>
+          <div class="piegrid">
+            <div>
+              <canvas width="100%" height="100%" id="GenderCount"></canvas>
+            </div>
+            <div>
+              <canvas width="100%" height="100%" id="Sentiment"></canvas>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div
+          style="
+            width: 100%;
+            height: 400px;
+            min-height: 400px;
+            max-height: 800px;
+            overflow: auto;
+            resize: vertical;
+            margin: auto;
+            background-color: beige;
+          "
+          id="tweetshow">
+          <table id="dataTable" border="1">
+            <thead>
+              <!-- Add table headers here -->
+              <tr>
+                <td id="datatablerow">Row</td>
+
+                <td id="username">
+                  Username
+                  <input class="tablefilter_item" id="table_username" type="text" autocomplete="off" />
+                </td>
+                <td id="gender">
+                  Gender
+                  <input class="tablefilter_item" id="table_gender" type="text" autocomplete="off" />
+                </td>
+                <td id="location">
+                  Location
+                  <input class="tablefilter_item" id="table_location" type="text" autocomplete="off" />
+                </td>
+                <td>
+                  Content
+                  <input class="tablefilter_item" id="table_content" type="text" autocomplete="off" />
+                </td>
+                <td id="created_at">
+                  Date
+                  <input class="tablefilter_item" id="table_created_at" type="text" autocomplete="off" />
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Add table data here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="warp" style="height: 100%; width: 100%; padding: 0; overflow: hidden; display: none">
+      <h4 style="text-align: center">LDA anaylsis is NOT AFFECTED from filter</h4>
+
+      <iframe
+        class="iframe"
+        id="frame"
+        width="100%"
+        height="100%"
+        style="width: 100%; height: 100%; transform: scale(1)">
+        LDA analysis is not avaliable!</iframe
+      >
+    </div>
+    <script type="module" src="./dashboard.js"></script>
+  </body>
+</html>
